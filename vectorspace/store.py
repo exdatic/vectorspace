@@ -173,6 +173,9 @@ class Store(MutableMappingABC, Index):
     def delete_by_query(self, query: Any):
         return self._es.delete_by_query(index=self.index, body=query, ignore=(404))
 
+    def search(self, query: Optional[Any] = None):
+        return self._es.search(index=self._index, body=query, ignore=(404))
+
     def __iter__(self):
         return self.keys()
 
