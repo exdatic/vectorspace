@@ -5,7 +5,6 @@ from pathlib import Path
 from typing import Iterable, List, Mapping, Optional, Sequence, Tuple, Union, cast
 
 import numpy as np
-from sklearn.base import BaseEstimator
 
 from vectorspace.lmdb import LMDB
 from vectorspace.mapping import KeyValueMapping
@@ -257,7 +256,7 @@ class Embedding:
         index = dict((w, i) for i, w in enumerate(words))
         return cls(vecs, norms, words, index, counts=counts)
 
-    def reduce(self, reducer: BaseEstimator) -> 'Embedding':
+    def reduce(self, reducer) -> 'Embedding':
         assert hasattr(reducer, 'fit_transform'), 'reducer has no fit_transform member'
         # always normalize vectors before dimensionality reduction
         if self.norms is not None:
