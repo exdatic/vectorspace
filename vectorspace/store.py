@@ -2,6 +2,7 @@ from collections.abc import MutableMapping as MutableMappingABC
 import itertools
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Tuple, Type, Union, cast
 
+import elasticsearch
 from elasticsearch import Elasticsearch, NotFoundError
 from elasticsearch.helpers import bulk, scan
 from elasticsearch_dsl import Index, Document
@@ -31,6 +32,8 @@ class Store(MutableMappingABC, Index):
                  settings: Optional[Dict] = DEFAULT_SETTINGS,
                  meta: bool = False):
         super().__init__(using=es, name=index)  # type: ignore
+
+        assert elasticsearch.VERSION < (8, 0, 0), "Elasticsearch 8.x and higher not supported"
 
         self._es = es
         self._index = index
